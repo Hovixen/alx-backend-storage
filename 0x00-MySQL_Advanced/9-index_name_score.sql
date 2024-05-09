@@ -3,4 +3,4 @@
 
 DROP INDEX IF EXISTS idx_name_first_score ON names;
 
-CREATE INDEX idx_name_first_score ON names(LEFT(name, 1), LEFT(CAST(score AS CHAR), 1));
+CREATE INDEX idx_name_first_score ON names(LEFT(name, 1), score);
