@@ -12,7 +12,7 @@ BEGIN
 	IF b = 0 THEN
 		SET ans = 0;
 	ELSE
-		SET ans = a / b;
+		SET ans = (a * 1.0) / b;
 	END IF;
 
 	RETURN ans;
