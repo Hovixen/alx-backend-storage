@@ -1,2 +1,2 @@
 //Script displays the number of document in the collection
-db.school.countDocuments({name: "Holberton school"})
+db.school.count()
