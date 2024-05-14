@@ -1,5 +1,5 @@
 //Script inserts a document in a collection
 
 db.school.insert({
-	"name": "Holberton School"}
+	"name": "Holberton school"}
 )
