@@ -36,6 +36,7 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+
 def replay(func: Callable):
     """Display the history of calls of a particular function."""
     # Extract class name & method name from the qualified name of the function
