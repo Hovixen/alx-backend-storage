@@ -2,6 +2,7 @@
 """ Writing strings to Redis """
 import uuid
 import redis
+import ast
 import functools
 from typing import Union, Callable
 
@@ -34,6 +35,26 @@ def call_history(method: Callable) -> Callable:
         self._redis.rpush(output_key, output)
         return output
     return wrapper
+
+def replay(func: Callable):
+    """Display the history of calls of a particular function."""
+    # Extract class name & method name from the qualified name of the function
+    class_name, method_name = func.__qualname__.split(':')[:-1]
+
+    # Construct the input and output keys in Redis
+    input_key = "{}:{}:inputs".format(class_name, method_name)
+    output_key = "{}:{}:outputs".format(class_name, method_name)
+
+    # Retrieve the input and output lists from Redis
+    inputs = [ast.literal_eval(arg.decode())
+              for arg in redis_conn.lrange(input_key, 0, -1)]
+    outputs = [output.decode() for output in
+               redis_conn.lrange(output_key, 0, -1)]
+
+    # Print the history of calls
+    print("{} was called {} times:".format(func.__qualname__, len(inputs)))
+    for args, output in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(func.__qualname, args, output))
 
 
 class Cache():
