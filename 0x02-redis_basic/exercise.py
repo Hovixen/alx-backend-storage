@@ -40,11 +40,11 @@ def call_history(method: Callable) -> Callable:
 def replay(func: Callable):
     """Display the history of calls of a particular function."""
     # Extract class name & method name from the qualified name of the function
-    class_name, method_name = func.__qualname__.split(':')[:-1]
+    func_name, _ = func.__qualname__.split(':')[:-1]
 
     # Construct the input and output keys in Redis
-    input_key = "{}:{}:inputs".format(class_name, method_name)
-    output_key = "{}:{}:outputs".format(class_name, method_name)
+    input_key = "{}:inputs".format(func_name)
+    output_key = "{}:outputs".format(func_name)
 
     # Retrieve the input and output lists from Redis
     inputs = [ast.literal_eval(arg.decode())
